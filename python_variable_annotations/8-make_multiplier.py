@@ -5,14 +5,15 @@ from typing import Callable
 
 
 def make_multiplier(multiplier: float) -> Callable[[float], float]:
+    """
+    A type-annotated function
+    make_multiplier that takes a
+    float multiplier as argument and
+    returns a function that
+    multiplies a float b multiplier.
+    """
     def multiply(numb: float) -> float:
         """
-        A type-annotated function make
-        _multiplier that takes a float
-        multiplier as argument and
-        returns a function tha
-        multiplies a float b
-        multiplier.
         """
         return numb * multiplier
     return multiply
