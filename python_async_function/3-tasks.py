@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""""""
+"""Tasks with the regular function syntax"""
 
 from asyncio import Task, create_task
 
