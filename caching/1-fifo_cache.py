@@ -5,15 +5,19 @@ from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    def __init__(self):
-        """
+    """
     A class FIFOCache that inherits
     from BaseCaching and is a caching
     system:
     """
+    def __init__(self):
+        """
+        """
         super().__init__()
 
     def put(self, key, item):
+        """
+        """
         if key is None or item is None:
             return
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
