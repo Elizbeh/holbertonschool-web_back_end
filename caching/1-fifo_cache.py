@@ -5,12 +5,12 @@ from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """
+    def __init__(self):
+        """
     A class FIFOCache that inherits
     from BaseCaching and is a caching
     system:
     """
-    def __init__(self):
         super().__init__()
 
     def put(self, key, item):
