@@ -18,16 +18,15 @@ class FIFOCache(BaseCaching):
 
     def put(self, key, item):
         """
-         Assign to the dictionary
-         self.cache_data the item
-         value for the key key.
+        Discard the first item put
+        in cache (FIFO algorithm)
         """
         if key is None or item is None:
             return
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             firstInKey = next(iter(self.cache_data))
+            print("DISCARD: {}".format(firstInKey))
             del self.cache_data[firstInKey]
-            print("DISCARD:", firstInKey)
 
         self.cache_data[key] = item
 
@@ -38,3 +37,4 @@ class FIFOCache(BaseCaching):
         key."""
         if key is None or key not in self.cache_data:
             return None
+        return self.cache_data[key]
