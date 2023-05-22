@@ -7,12 +7,16 @@ class LIFOCache(BaseCaching):
     """
     A class LIFOCache that inherits
     from BaseCaching and is a
-    caching system:"""
+    caching system:
+    """
     def __init__(self):
+        """calls the parent init"""
         super().__init__()
         self.insertion_order = []
 
     def put(self, key, item):
+        """ Adds an item to the"""
+
         if key is None or item is None:
             return
 
@@ -29,6 +33,7 @@ class LIFOCache(BaseCaching):
         self.insertion_order.append(key)
 
     def get(self, key):
+        """Get an item in the cache"""
         if key is None or key not in self.cache_data:
             return None
         return self.cache_data[key]
