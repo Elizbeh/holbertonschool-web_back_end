@@ -10,8 +10,9 @@ def index_range(page, page_size):
     and end indexes for pagination.
 
     Args:
-    page (int): The current
-    page number.
+    page (int): The current page
+    number.
+    
     page_size (int): Number of items
     per page.
 
