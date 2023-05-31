@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
- main
+Log formatter
 """
 
 import re
@@ -24,11 +24,7 @@ class RedactingFormatter(logging.Formatter):
         log_message = super().format(record)
         return self.__class__.filter_datum(self.fields, self.REDACTION, log_message, self.SEPARATOR)
 
-        
-
     @staticmethod
-    def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
-        """
-        """  
+    def filter_datum(fields, redaction, message, separator):
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
