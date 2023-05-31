@@ -24,7 +24,6 @@ class RedactingFormatter(logging.Formatter):
         """
         Method to filter values in incoming log records
         using filter_dum
-        
         """
         log_message = super().format(record)
         return self.__class__.filter_datum(
@@ -39,3 +38,4 @@ class RedactingFormatter(logging.Formatter):
         """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
+    
