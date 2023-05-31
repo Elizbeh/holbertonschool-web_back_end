@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Regex-ing
+Main file
 """
 import re
-from typing import List
+from typing import List, Tuple
 
+def filter_datum(fields: List[str], redaction: str, message:str, separator:str) -> str:
+    pattern = r"password=([^;\s]+).*date_of_birth=([^;\s]+)"
 
-def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
-    regex = r"password=([^;\s]+).*date_of_birth=([^;\s]+)"
-
-    return re.sub(regex, f"password={redaction};date_of_birth={redaction}", message)
+    result = re.sub(pattern, f"password={redaction};date_of_birth={redaction}", message)
+    return result
