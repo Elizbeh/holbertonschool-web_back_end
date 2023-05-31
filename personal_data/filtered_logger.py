@@ -21,6 +21,11 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+        Method to filter values in incoming log records
+        using filter_dum
+        
+        """
         log_message = super().format(record)
         return self.__class__.filter_datum(
             self.fields, self.REDACTION, log_message, self.SEPARATOR
@@ -34,4 +39,3 @@ class RedactingFormatter(logging.Formatter):
         """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
-    
