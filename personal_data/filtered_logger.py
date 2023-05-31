@@ -28,9 +28,10 @@ class RedactingFormatter(logging.Formatter):
 
     @staticmethod
     def filter_datum(
-        fields: List[str], redaction: str, message: str, separator: str
-        ) -> str:
+      fields: List[str], redaction: str, message: str, separator: str
+      ) -> str:
         """
         """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
+    
