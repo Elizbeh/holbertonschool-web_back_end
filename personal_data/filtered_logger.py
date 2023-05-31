@@ -22,13 +22,15 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         log_message = super().format(record)
-        return self.__class__.filter_datum(self.fields, self.REDACTION, log_message, self.SEPARATOR)
-
-        
+        return self.__class__.filter_datum(
+            self.fields, self.REDACTION, log_message, self.SEPARATOR
+            )
 
     @staticmethod
-    def filter_datum(fields: List[str], redaction: str, message: str, separator: str) -> str:
+    def filter_datum(
+        fields: List[str], redaction: str, message: str, separator: str
+        ) -> str:
         """
-        """  
+        """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
