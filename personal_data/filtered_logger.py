@@ -38,4 +38,3 @@ class RedactingFormatter(logging.Formatter):
         """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
-    
