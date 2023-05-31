@@ -11,11 +11,19 @@ PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 class RedactingFormatter(logging.Formatter):
+    """
+    Custom log formatter that
+    redacts PII fields in log messages.
+    """
     def __init__(self, pii_fields):
         super().__init__()
         self.pii_fields = pii_fields
 
     def format(self, record):
+        """
+        Formats the log record, redacting
+        any PII fields in the log message.
+        """
         for field in self.pii_fields:
             if field in record.msg:
                 record.msg = record.msg.replace(record.msg, "*" * 8)
