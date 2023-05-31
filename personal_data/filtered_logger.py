@@ -21,10 +21,19 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+         method to filter values in incoming log records using filter_datum
+        """
         log_message = super().format(record)
-        return self.__class__.filter_datum(self.fields, self.REDACTION, log_message, self.SEPARATOR)
+        return self.__class__.filter_datum(
+            self.fields, self.REDACTION, log_message, self.SEPARATOR
+        )
+
 
     @staticmethod
     def filter_datum(fields, redaction, message, separator):
+        """
+        """
         pattern = re.compile(f'({"|".join(fields)})=[^;]+')
         return pattern.sub(f'\\1={redaction}', message)
+    
