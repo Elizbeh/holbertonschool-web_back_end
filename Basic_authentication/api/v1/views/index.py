@@ -8,9 +8,8 @@ from api.v1.views import app_views
 @app_views.route('/forbidden/', methods=['GET'], strict_slashes=False)
 def error_403() -> str:
     """ GET /api/v1/unauthorized"""
-    abort(403)
-    
-
+    return jsonify({"error": "Forbidden"}), 403
+   
 @app_views.route('/stats/', strict_slashes=False)
 def stats() -> str:
     """ GET /api/v1/stats
