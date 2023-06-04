@@ -26,13 +26,20 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Forbidden"}), 403
 
+
 @app.before_request
 def before_request():
+    """
+    Code to be executed before each request
+    """
     if auth is None:
         return
 
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
-    if request.path in excluded_paths or not auth.require_auth(request.path, excluded_paths):
+    excluded_paths = [
+            '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'
+            ]
+    if request.path in excluded_paths or not auth.require_auth(
+            request.path, excluded_paths):
         return
 
     if auth.authorization_header(request) is None:

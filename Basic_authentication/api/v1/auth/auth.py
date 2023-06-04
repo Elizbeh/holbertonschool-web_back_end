@@ -30,8 +30,11 @@ class Auth:
         Retrieves the authorization
         header from the request.
         """
-     
+
     def authorization_header(self, request=None) -> str:
+         """retrieves the value of the
+         "Authorization" header from the request object
+         """
         if request is None or 'Authorization' not in request.headers:
             return None
         return request.headers['Authorization']
