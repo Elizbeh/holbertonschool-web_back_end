@@ -44,10 +44,11 @@ def before_request():
 
     if auth.authorization_header(request) is None:
         abort(401)
-
+        return None
     user = auth.current_user(request)
     if user is None:
         abort(403)
+        return None
 
 
 if __name__ == "__main__":
