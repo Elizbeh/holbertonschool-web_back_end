@@ -36,17 +36,7 @@ class DB:
         """
         Creates a user
         """
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
+        addedUser = User(email=email, hashed_password=hashed_password)
+        self._session.add(addedUser)
         self._session.commit()
-        return user
-
-    def find_user_by(self, **kwargs) -> User:
-        """Find a user by the specified keyword arguments"""
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if user is None:
-                raise NoResultFound
-            return user
-        except InvalidRequestError:
-            raise
+        return addedUser
