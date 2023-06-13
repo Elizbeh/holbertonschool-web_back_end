@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
 """
+Mocking a property
 """
 
-import unittest
-from unittest.mock import patch
-from parameterized import parameterized
-from client import GithubOrgClient
+from typing import List
+import requests
 
 
-class TestGithubOrgClient(unittest.TestCase):
+class GithubOrgClient:
     """
-    Test case for GithubOrgClient class
+    Class to interact with the GitHub API for an organization
     """
 
-    @parameterized.expand([
-        ('google',),
-        ('abc',)
-    ])
-    @patch('client.get_json')
-    def test_org(self, org_name, mock_get_json):
+    def __init__(self, org_name: str) -> None:
+        self._org_name = org_name
+        self._base_url = f'https://api.github.com/orgs/{org_name}'
+
+    def org(self) -> dict:
         """
-        Test the org method of GithubOrgClient
+        Method to get organization information
         """
-        expected_result = {'login': org_name}
-        mock_get_json.return_value = expected_result
+        response = self._get(f'{self._base_url}')
+        return response.json()
 
-        client = GithubOrgClient(org_name)
+    def public_repos_url(self) -> str:
+        """
+        Property to get the public repositories URL of the organization
+        """
+        return f'{self._base_url}/repos'
 
-        result = client.org
+    def _get(self, url: str) -> requests.Response:
+        """
+        Helper method to send GET requests
+        """
+        response = requests.get(url)
+        response.raise_for_status()
+        return response
 
-        mock_get_json.assert_called_once_with(f'https://api.github.com/orgs/{org_name}')
-
-        self.assertEqual(result, expected_result)
