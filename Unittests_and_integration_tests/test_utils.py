@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Parameterize a unit test
+Unit tests for utils module
 """
 import unittest
 from parameterized import parameterized
@@ -9,7 +9,9 @@ from unittest.mock import patch, Mock
 
 
 class TestAccessNestedMap(unittest.TestCase):
-
+    """
+    Test case for access_nested_map function
+    """
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
@@ -26,6 +28,9 @@ class TestAccessNestedMap(unittest.TestCase):
         self, nested_map,
         path, expected_exception
     ):
+        """
+        Test that accessing a nested key raises the expected exception
+        """
 
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
@@ -40,6 +45,9 @@ class TestGetJson(unittest.TestCase):
     ])
     @patch('utils.requests.get')
     def test_get_json(self, test_url, expected_payload, mock_get):
+        """
+    Test case for get_json function
+    """
         mock_json = Mock(return_value=expected_payload)
         mock_get.return_value = Mock(json=mock_json)
 
@@ -59,9 +67,11 @@ class TestClass:
 
 class TestMemoize(unittest.TestCase):
     """
+    Test case for memoize decorator
     """
     @patch.object(TestClass, 'a_method')
     def test_memoize(self, mock_a_method):
         """
+        Test that memoize decorator caches the result
         """
         test_obj = TestClass()
