@@ -62,11 +62,20 @@ class TestGetJson(unittest.TestCase):
 
 
 class TestClass:
+    """
+    Test class for memoize decorator
+    """
     def a_method(self):
+        """
+        Test method
+        """
         return 42
 
     @memoize
     def a_property(self):
+        """
+        Test property decorated with memoize
+        """
         return self.a_method()
 
 
