@@ -5,7 +5,8 @@ Parameterize a unit test
 import unittest
 from parameterized import parameterized
 from utils import access_nested_map,get_json
-from unittest.mock import patch
+from unittest.mock import patch, Mock
+
 
 class TestAccessNestedMap(unittest.TestCase):
 
@@ -27,22 +28,15 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertEqual(str(context.exception), str(expected_exception))
 class TestGetJson(unittest.TestCase):
 
+    @parameterized.expand([
+        ('http://example.com', {"payload": True}),
+        ('http://holberton.io', {"payload": False})
+    ])
     @patch('utils.requests.get')
-    def test_get_json(self, mock_get):
-        test_url_1 = "http://example.com"
-        test_payload_1 = {"payload": True}
-        mock_get.return_value.json.return_value = test_payload_1
+    def test_get_json(self, test_url, expected_payload, mock_get):
+        mock_json = Mock(return_value=expected_payload)
+        mock_get.return_value = Mock(json=mock_json)
 
-        result_1 = get_json(test_url_1)
+        result = get_json(test_url)
 
-        mock_get.assert_called_once_with(test_url_1)
-        self.assertEqual(result_1, test_payload_1, "Expected: OK\nActual: {}".format(result_1))
-
-        test_url_2 = "http://holberton.io"
-        test_payload_2 = {"payload": False}
-        mock_get.return_value.json.return_value = test_payload_2
-
-        result_2 = get_json(test_url_2)
-
-        mock_get.assert_called_with(test_url_2)
-        self.assertEqual(result_2, test_payload_2, "Expected: OK\nActual: {}".format(result_2))
+        self.assertEqual(result, expected_payload)
