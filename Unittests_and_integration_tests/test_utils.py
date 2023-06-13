@@ -4,7 +4,7 @@ Parameterize a unit test
 """
 import unittest
 from parameterized import parameterized
-from utils import access_nested_map,get_json, memoize
+from utils import access_nested_map, get_json, memoize
 from unittest.mock import patch, Mock
 
 
@@ -22,10 +22,16 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",), KeyError('a')),
         ({"a": 1}, ("a", "b"), KeyError('b'))
     ])
-    def test_access_nested_map_exception(self, nested_map, path, expected_exception):
+    def test_access_nested_map_exception(
+        self, nested_map,
+        path, expected_exception
+    ):
+
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
         self.assertEqual(str(context.exception), str(expected_exception))
+
+
 class TestGetJson(unittest.TestCase):
 
     @parameterized.expand([
@@ -41,6 +47,7 @@ class TestGetJson(unittest.TestCase):
 
         self.assertEqual(result, expected_payload)
 
+
 class TestClass:
     def a_method(self):
         return 42
@@ -49,7 +56,12 @@ class TestClass:
     def a_property(self):
         return self.a_method()
 
+
 class TestMemoize(unittest.TestCase):
+    """
+    """
     @patch.object(TestClass, 'a_method')
     def test_memoize(self, mock_a_method):
+        """
+        """
         test_obj = TestClass()
