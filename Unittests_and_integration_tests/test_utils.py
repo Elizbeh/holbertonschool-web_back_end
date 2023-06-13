@@ -25,7 +25,6 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
         self.assertEqual(str(context.exception), str(expected_exception))
-
 class TestGetJson(unittest.TestCase):
 
     @patch('utils.requests.get')
@@ -37,7 +36,7 @@ class TestGetJson(unittest.TestCase):
         result_1 = get_json(test_url_1)
 
         mock_get.assert_called_once_with(test_url_1)
-        self.assertEqual(result_1, test_payload_1, "Expected: OK\nActual: Failed")
+        self.assertEqual(result_1, test_payload_1, "Expected: OK\nActual: {}".format(result_1))
 
         test_url_2 = "http://holberton.io"
         test_payload_2 = {"payload": False}
@@ -46,4 +45,4 @@ class TestGetJson(unittest.TestCase):
         result_2 = get_json(test_url_2)
 
         mock_get.assert_called_with(test_url_2)
-        self.assertEqual(result_2, test_payload_2, "Expected: OK\nActual: Failed")
+        self.assertEqual(result_2, test_payload_2, "Expected: OK\nActual: {}".format(result_2))
