@@ -6,6 +6,7 @@ Mocking a property
 import unittest
 from client import GithubOrgClient
 from unittest.mock import patch, PropertyMock, MagicMock
+from parameterized import parameterized
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -51,3 +52,11 @@ class TestGithubOrgClient(unittest.TestCase):
             repos = client.public_repos()
             self.assertEqual(repos, ['repo1', 'repo2', 'repo3'])
             mock_get_json.assert_called_once()
+
+    def has_license(self, repo, license_key):
+        """
+        Check if a repository has a specific license.
+        """
+        if 'license' in repo and 'key' in repo['license']:
+            return repo['license']['key'] == license_key
+        return False
