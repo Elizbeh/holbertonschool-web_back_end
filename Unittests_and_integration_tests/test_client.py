@@ -53,10 +53,20 @@ class TestGithubOrgClient(unittest.TestCase):
             self.assertEqual(repos, ['repo1', 'repo2', 'repo3'])
             mock_get_json.assert_called_once()
 
-    def has_license(self, repo, license_key):
+    @parameterized.expand([
+        [{'license': {'key': 'my_license'}}, 'my_license'],
+        [{'license': {'key': 'other_license'}}, 'my_license'],
+        ])
+    def test_has_license(self, repo, license_key):
         """
-        Check if a repository has a specific license.
+        Test case to verify the behavior of the has_license method.
+        The test parametrizes the repo and license_key inputs and verifies
+        the result of the has_license method.
         """
-        if 'license' in repo and 'key' in repo['license']:
-            return repo['license']['key'] == license_key
-        return False
+        client = GithubOrgClient('testorg')
+        result = client.has_license(repo, license_key)
+
+        if license_key == repo.get('license', {}).get('key'):
+            self.assertTrue(result)
+        else:
+            self.assertFalse(result)
