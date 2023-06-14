@@ -12,7 +12,6 @@ class TestGithubOrgClient(unittest.TestCase):
     """
     Unit tests for the GithubOrgClient class.
     """
-
     def test_public_repos_url(self):
         """
         Test case to verify the behavior of the _public_repos_url property.
@@ -35,18 +34,27 @@ class TestGithubOrgClient(unittest.TestCase):
 
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
-        # Mocking the get_json method
-        mock_get_json.return_value = [{'name': 'repo1'}, {'name': 'repo2'}, {'name': 'repo3'}]
+        """ Mocking the get_json method
+        """
+        mock_get_json.return_value =
+    [
+        {'name': 'repo1'},
+        {'name': 'repo2'},
+        {'name': 'repo3'}
+    ]
 
-        with patch.object(GithubOrgClient, '_public_repos_url', return_value='https://api.github.com/orgs/testorg/repos'):
-            # Create an instance of GithubOrgClient
-            client = GithubOrgClient('testorg')
+    with patch.object(
+            GithubOrgClient, '_public_repos_url',
+            return_value='https://api.github.com/orgs/testorg/repos'
+                ):
+        # Create an instance of GithubOrgClient
+        client = GithubOrgClient('testorg')
 
-            # Call the method under test
-            repos = client.public_repos()
+        # Call the method under test
+        repos = client.public_repos()
 
-            # Assertion
-            self.assertEqual(repos, ['repo1', 'repo2', 'repo3'])
+        # Assertion
+        self.assertEqual(repos, ['repo1', 'repo2', 'repo3'])
 
-            # Check that the mocked get_json was called once
-            mock_get_json.assert_called_once()
+        # Check that the mocked get_json was called once
+        mock_get_json.assert_called_once()
