@@ -5,7 +5,7 @@ Mocking a property
 
 import unittest
 from client import GithubOrgClient
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, MagicMock
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -32,3 +32,21 @@ class TestGithubOrgClient(unittest.TestCase):
             client = GithubOrgClient('Google')
             result = client._public_repos_url
             self.assertEqual(result, expected_result)
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock_get_json):
+        # Mocking the get_json method
+        mock_get_json.return_value = [{'name': 'repo1'}, {'name': 'repo2'}, {'name': 'repo3'}]
+
+        with patch.object(GithubOrgClient, '_public_repos_url', return_value='https://api.github.com/orgs/testorg/repos'):
+            # Create an instance of GithubOrgClient
+            client = GithubOrgClient('testorg')
+
+            # Call the method under test
+            repos = client.public_repos()
+
+            # Assertion
+            self.assertEqual(repos, ['repo1', 'repo2', 'repo3'])
+
+            # Check that the mocked get_json was called once
+            mock_get_json.assert_called_once()
