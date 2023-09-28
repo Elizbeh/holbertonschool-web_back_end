@@ -12,7 +12,7 @@ def index_range(page, page_size):
     Args:
     page (int): The current page
     number.
-    
+
     page_size (int): Number of items
     per page.
 
