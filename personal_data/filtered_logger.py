@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-"""
-a function called filter_datum that
-returns the log message obfuscated:
-"""
-
 import re
 from typing import List
-
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
@@ -22,8 +15,12 @@ def filter_datum(fields: List[str], redaction: str,
     Returns:
     - str: The log message with specified fields obfuscated
     """
-
+    # Create a regex pattern by joining escaped field names
     pattern = '|'.join(map(re.escape, fields))
+    
+    # Use re.sub to perform the substitution with a single regex
     return re.sub(
-        r'({})(.*?)(?={}|\Z)'.format(pattern, separator), r'\1={}{}'.format(redaction, separator), message
+        r'({})([^{}]*(?:{}|$))'.format(pattern, re.escape(separator), re.escape(separator)), 
+        r'\1={}{}'.format(redaction, separator), 
+        message
     )
