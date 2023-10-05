@@ -3,12 +3,15 @@
 Main file
 """
 
-import logging
-import re
+from filtered_logger import RedactingFormatter, PII_FIELDS
 
-RedactingFormatter = __import__('filtered_logger').RedactingFormatter
+# Create an instance of RedactingFormatter with PII_FIELDS
+formatter = RedactingFormatter(fields=PII_FIELDS)
 
-message = "name=Bob;email=bob@dylan.com;ssn=000-123-0000;password=bobby2019;"
-log_record = logging.LogRecord("my_logger", logging.INFO, None, None, message, None, None)
-formatter = RedactingFormatter(fields=("email", "ssn", "password"))
-print(formatter.format(log_record))
+# Create a logger using the formatter
+logger = RedactingFormatter.get_logger(formatter)
+
+# Print the type of the logger and the length of PII_FIELDS
+print(type(logger))
+print("PII_FIELDS: {}".format(len(PII_FIELDS)))
+
