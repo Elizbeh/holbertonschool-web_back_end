@@ -41,7 +41,7 @@ class RedactingFormatter(logging.Formatter):
             message
         )
 
-    def get_logger(self) -> logging.Logger:
+    def get_logger(self):
         logger = logging.getLogger("user_data")
         logger.setLevel(logging.INFO)
 
@@ -60,6 +60,3 @@ class RedactingFormatter(logging.Formatter):
         logger.propagate = False
 
         return logger
-
-
-formatter = RedactingFormatter(fields=PII_FIELDS)
