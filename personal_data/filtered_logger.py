@@ -22,6 +22,15 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """
+        Format the log record, redacting specified fields.
+
+        Args:
+        record (logging.LogRecord): The log record to be formatted.
+
+        Returns:
+        str: The formatted log message with redacted fields.
+        """
         log_message = super(
                 RedactingFormatter, self).format(record)
         for field in self.fields:
