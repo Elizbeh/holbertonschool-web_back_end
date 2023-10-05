@@ -42,7 +42,7 @@ class RedactingFormatter(logging.Formatter):
         )
 
     @staticmethod
-    def get_logger(formatter):
+    def get_logger(self):
         logger = logging.getLogger("user_data")
         logger.setLevel(logging.INFO)
 
@@ -52,7 +52,7 @@ class RedactingFormatter(logging.Formatter):
 
         # Create a StreamHandler and set the formatter
         stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(formatter)
+        stream_handler.setFormatter(self)
 
         # Add the StreamHandler to the logger
         logger.addHandler(stream_handler)
