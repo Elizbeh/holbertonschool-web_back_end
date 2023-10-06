@@ -30,7 +30,7 @@ class Auth:
             check: List = i.split('*')
             if path.startswith(check[0]) or path + '/' == i:
                 return False
-            return True
+        return True
 
     def authorization_header(self, request=None) -> str:
         """
