@@ -11,15 +11,26 @@ class Auth:
     """
     def require_auth(self, path: str,
                      excluded_paths: List[str]) -> bool:
-        """
-        Placeholder for authentication logic.
+        """Check if authentication is required for the
+        given path.
 
-        path: The path of the request.
-        excluded_paths: List of paths
-        that should be excluded from authentication.
-        :return: False for now.
+        Args:
+            path (str): The path of the request.
+            excluded_paths (List[str]): List of paths
+            excluded from authentication.
+
+        Returns:
+            bool: True if authentication is required,
+            False otherwise.
         """
-        return False
+        if path is None or excluded_paths is None or excluded_paths == []:
+            return True
+
+        for i in excluded_paths:
+            check: List = i.split('*')
+            if path.startswith(check[0]) or path + '/' == i:
+                return False
+            return True
 
     def authorization_header(self, request=None) -> str:
         """
