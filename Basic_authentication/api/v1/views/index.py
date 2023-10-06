@@ -26,11 +26,10 @@ def stats() -> str:
     stats['users'] = User.count()
     return jsonify(stats)
 
-@app_views.route('/unauthorized/', strict_slashes=False)
+@app_views.route('/unauthorized/', methods=['GET'], strict_slashes=False)
 def error_401() -> str:
     """
     GET /api/v1/unauthorized
-    Return: Raise a 404 error
+    Return: error
     """
-
     abort(401)
