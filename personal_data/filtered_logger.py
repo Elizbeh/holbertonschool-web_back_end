@@ -42,21 +42,17 @@ class RedactingFormatter(logging.Formatter):
         )
 
     def get_logger(self) -> logging.Logger:
+
         logger = logging.getLogger("user_data")
         logger.setLevel(logging.INFO)
-
-        # Remove existing handlers to avoid duplicate log messages
-        for handler in logger.handlers[:]:
-            logger.removeHandler(handler)
-
-        # Create a StreamHandler and set the formatter
-        stream_handler = logging.StreamHandler()
-        stream_handler.setFormatter(self)
-
-        # Add the StreamHandler to the logger
-        logger.addHandler(stream_handler)
-
-        # Ensure that messages are not propagated to other loggers
         logger.propagate = False
+
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.INFO)
+
+        redacting_formatter = RedactingFormatter(PII_FIELDS)
+        stream_handler.setFormatter(redacting_formatter)
+
+        logger.addHandler(stream_handler)
 
         return logger
