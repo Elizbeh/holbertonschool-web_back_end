@@ -36,9 +36,9 @@ class DB:
         Creates User
         """
 
-        userAdded = User(email=email, hashed_password=hashed_password)
+        user_added: User = User(email=email, hashed_password=hashed_password)
 
-        self._session.add(userAdded)
+        self._session.add(user_added)
         self._session.commit()
     
-        return userAdded
+        return user_added
