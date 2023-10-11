@@ -40,5 +40,5 @@ class DB:
 
         self._session.add(userAdded)
         self._session.commit()
-        
+    
         return userAdded
