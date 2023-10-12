@@ -52,10 +52,8 @@ class DB:
         """
         try:
             response: User = self._session.query(User).filter_by(**kwargs).first()
-            return response
-        except NoResultFound:
-            self._session.rollback()
-            raise NoResultFound("No user found")
-        except InvalidRequestError as e:
-            self._session.rollback()
-            raise e
+        except InvalidRequestError:
+            raise InvalidRequestError
+        if response is None:
+            raise NoResultFound
+        return response
