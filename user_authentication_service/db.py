@@ -50,10 +50,11 @@ class DB:
         raises InvalideRequestError
         """
         try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if user is None:
-                raise NoResultFound("Nu user found")
+            user = self._session.query(User).filter_by(**kwargs).one()
             return user
+        except NoResultFound as e:
+            self._session.rollback()
+            raise e
         except InvalidRequestError as e:
             self._session.rollback()
             raise e
