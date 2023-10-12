@@ -6,7 +6,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import NoResultFound, MultipleResultsFound,InvalidRequestError
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 
 from user import User, Base
 
@@ -50,14 +51,9 @@ class DB:
         raises InvalideRequestError
         """
         try:
-            user = self._session.query(User).filter_by(**kwargs).one()
-            return user
-        except NoResultFound as e:
-            self._session.rollback()
-            raise e
-        except MultipleResultsFound as e:
-            self._session.rollback()
-            raise e
-        except InvalidRequestError as e:
-            self._session.rollback()
-            raise e
+            response: User = self._session.query(User).filter_by(**kwargs).first()
+        except InvalidRequestError:
+            raise InvalidRequestError
+        if response is None:
+            raise NoResultFound
+        return response
