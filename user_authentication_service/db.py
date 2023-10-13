@@ -51,7 +51,8 @@ class DB:
         raises InvalideRequestError
         """
         try:
-            response: User = self._session.query(User).filter_by(**kwargs).first()
+            response: User = self._session.query(
+                    User).filter_by(**kwargs).first()
         except InvalidRequestError:
             raise InvalidRequestError
         if response is None:
