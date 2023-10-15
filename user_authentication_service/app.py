@@ -75,6 +75,14 @@ def logout() -> str:
     return redirect('/')
 
 
+def is_valid_uuid(token):
+    try:
+        uuid.UUID(token, version=4)
+        return True
+    except ValueError:
+        return False
+
+
 @app.route('/profile', methods=['GET'], strict_slashes=False)
 def get_profile():
     '''Get user profile.'''
