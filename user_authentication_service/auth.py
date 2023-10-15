@@ -112,7 +112,6 @@ class Auth:
         except Exception:
             raise ValueError
 
-
     def update_password(self, reset_token: str, password: str) -> None:
         '''Method to update a user's password based on a reset token.'''
         try:
