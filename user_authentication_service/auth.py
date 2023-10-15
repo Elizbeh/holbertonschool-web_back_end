@@ -54,5 +54,5 @@ class Auth:
         Returns:
         -str: String representaion of the generated uuid
         """
-        new_uuid = uuid. uuid4()
+        new_uuid = uuid.uuid4()
         return str(new_uuid)
