@@ -25,7 +25,8 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale():
     """
-    Determine the best-matching language from the supported languages.
+    Determine the best-matching language
+    from the supported languages.
 
     Uses request.accept_languages to determine the best match.
     """
@@ -34,8 +35,8 @@ def get_locale():
 
 @app.route('/')
 def welcome():
-    """A basic Flask app that creates
-    a single / and an html template
+    """A basic Flask app that creates a single /
+    and an html template...
     """
     return render_template('2-index.html')
 
