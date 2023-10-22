@@ -54,18 +54,5 @@ def welcome():
     return render_template('5-index.html')
 
 
-def get_locale():
-    """
-    Determine the best-matching language from the supported languages.
-    Uses request.args to get the locale, fallback to user's accepted languages.
-    """
-    locale = request.args.get('locale')
-    if locale and locale in app.config['LANGUAGES']:
-        return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-babel.localeselector(get_locale)
-
-
 if __name__ == '__main__':
     app.run(debug=True)
