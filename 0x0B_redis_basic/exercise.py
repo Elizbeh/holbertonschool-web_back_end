@@ -6,6 +6,7 @@ Writing strings to Redis
 import redis
 import uuid
 from typing import Union, Callable
+from functools import wraps
 
 
 class Cache:
@@ -42,7 +43,7 @@ class Cache:
             return fn(data)
         return data
 
-    def get_str(elf, key: str) -> str:
+    def get_str(self, key: str) -> str:
         """
         Retrieves a string from Redis using the provided key.
 
@@ -74,15 +75,23 @@ class Cache:
         """
         return self.get(fn)
 
+def count_calls(method: Callable) -> Callable:
+    """
+    A decorator that counts how many times a method of the Cache class is called.
 
-cache = Cache()
+    Args:
+        method (Callable): The method to be decorated.
 
-TEST_CASES = {
-    b"foo": None,
-    123: int,
-    "bar": lambda d: d.decode("utf-8")
-}
+    Returns:
+        Callable: The decorated method.
+    """
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        key = method.__name__
+        count_key = f"call_count:{key}"
+        self._redis.incr(count_key)
+        return method(self, *args, **kwargs)
 
-for value, fn in TEST_CASES.items():
-    key = cache.store(value)
-    assert cache.get(key, fn=fn) == value
+    return wrapper
+
+Cache.store = count_calls(Cache.store)
