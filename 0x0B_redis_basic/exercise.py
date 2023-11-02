@@ -95,3 +95,16 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 Cache.store = count_calls(Cache.store)
+
+def call_history(method: Callable) -> Callable:
+    def wrapper(self, *args, **kwargs):
+        input_key = f"{method.__qualname__}:inputs"
+        output_key = f"{method.__qualname__}:outputs"
+        self._redis.rpush(input_key, repr(args))
+        result = method(self, *args, **kwargs)
+        self._redis.rpush(output_key, result)
+        return result
+
+    return wrapper
+
+Cache.store = call_history(Cache.store)
