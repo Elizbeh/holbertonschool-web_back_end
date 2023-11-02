@@ -8,7 +8,6 @@ import uuid
 from typing import Union, Callable
 from functools import wraps
 
-
 class Cache:
     """
     Cache class for storing data in Redis with random keys.
@@ -36,14 +35,14 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Callable = None
+    def get(self, key: str, fn: Callable=None
             ) -> Union[str, bytes, int, float]:
         data = self._redis.get(key)
         if data is not None and fn is not None:
             return fn(data)
         return data
 
-    def get_str(self, key: str) -> str:
+    def get_str(elf, key: str) -> str:
         """
         Retrieves a string from Redis using the provided key.
 
@@ -75,29 +74,26 @@ class Cache:
         """
         return self.get(fn)
 
+    @classmethod
+    def count_calls(cls, method):
+        @wraps(method)
+        def wrapper(self, *args, **kwargs):
+            key = f"{cls.__name__}.{method.__name__}"  # Use the class and method name as the key
+            count = cls._method_call_counts.get(key, 0)  # Get the current count (default to 0)
+            count += 1  # Increment the count
+            cls._method_call_counts[key] = count  # Update the count
+            result = method(self, *args, **kwargs)  # Call the original method
+            return result
+        return wrapper
 
-def count_calls(method: Callable) -> Callable:
-    """ Count how many times methods of the Cache class are called"""
-    key = method.__qualname__
+if __name__ == "__main__":
+    cache = Cache()
 
-    @wraps(method)
-    def wrapper(self, *args):
-        """ Wrapper method """
-        self._redis.incr(key)
-        return method(self, *args)
-    return wrapper
+    @cache.count_calls
+    def custom_method():
+        return "Custom Method Called"
 
-def call_history(method: Callable) -> Callable:
-    """ Store history of inputs and outputs into list """
-    key = method.__qualname__
+    custom_method()  # This call will increment the count for the custom_method key
+    custom_method()  # Calling it again will further increment the count
+    print("Method Call Counts:", cache._method_call_counts)  # Display the method call counts
 
-    @wraps(method)
-    def wrapper(self, *args) -> Any:
-        """ Wrapper method """
-        input_data = args
-        output_data = method(self, *args)
-        self._redis.rpush(key + ":inputs", str(input_data))
-        self._redis.rpush(key + ":outputs", str(output_data))
-        return output_data
-
-    return wrapper
