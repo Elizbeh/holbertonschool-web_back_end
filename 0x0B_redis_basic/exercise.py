@@ -106,3 +106,20 @@ def call_history(method: Callable) -> Callable:
         return result
 
     return wrapper
+
+Cache.store = count_calls(Cache.store)
+
+def call_history(method: Callable) -> Callable:
+    """ Store history of inputs and outputs into list """
+    key = method.__qualname__
+
+    @wraps(method)
+    def wrapper(self, *args) -> Any:
+        """ Wrapper method """
+        input_data = args
+        output_data = method(self, *args)
+        self._redis.rpush(key + ":inputs", str(input_data))
+        self._redis.rpush(key + ":outputs", str(output_data))
+        return output_data
+
+    return wrapper
