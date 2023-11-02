@@ -48,15 +48,8 @@ class Cache:
         Retrieves a string from Redis using the provided key.
 
         Args:
-            key (str): The key under which the data is stored in Redis.
-
-        Returns:
-            str: The retrieved data as a string.
-        """"""
-        Retrieves a string from Redis using the provided key.
-
-        Args:
-            key (str): The key under which the data is stored in Redis.
+            key (str): The key under which the data is
+            stored in Redis.
 
         Returns:
             str: The retrieved data as a string.
@@ -65,19 +58,23 @@ class Cache:
 
     def get_int(self, key: str) -> int:
         """
-        Retrieves an integer from Redis using the provided key.
+        Retrieves an integer from Redis using the
+        provided key.
 
         Args:
-            key (str): The key under which the data is stored in Redis.
+            key (str): The key under which the data is
+            stored in Redis.
 
         Returns:
             int: The retrieved data as an integer.
         """
         return self.get(fn)
 
+
 def count_calls(method: Callable) -> Callable:
     """
-    A decorator that counts how many times a method of the Cache class is called.
+    A decorator that counts how many times
+    a method of the Cache class is called.
 
     Args:
         method (Callable): The method to be decorated.
@@ -94,7 +91,9 @@ def count_calls(method: Callable) -> Callable:
 
     return wrapper
 
+
 Cache.store = count_calls(Cache.store)
+
 
 def call_history(method: Callable) -> Callable:
     def wrapper(self, *args, **kwargs):
@@ -106,10 +105,19 @@ def call_history(method: Callable) -> Callable:
         return result
     return wrapper
 
-# Decorate Cache.store with call_history
+
 Cache.store = call_history(Cache.store)
 
+
 def replay(method: Callable):
+    """
+    Display the history of calls for a particular function.
+
+    Args:
+        method (Callable): The function for which
+        to display the history.
+    """
+
     input_key = f"{method.__qualname__}:inputs"
     output_key = f"{method.__qualname__}:outputs"
 
@@ -117,9 +125,8 @@ def replay(method: Callable):
     inputs = cache._redis.lrange(input_key, 0, -1)
     outputs = cache._redis.lrange(output_key, 0, -1)
 
-    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    print(f"{method.__qualname__} was called {len(inputs)}
+          times: ")
 
-    for input_args, output_key in zip(inputs, outputs):
-        input_args = eval(input_args.decode('utf-8'))   
-        output_key = output_key.decode('utf-8')
-        print(f"{method.__qualname__}{input_args} -> {output_key}")
+
+replay(cache.store)
