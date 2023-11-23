@@ -1,5 +1,6 @@
 function getStudentIdsSum(studentList) {
-  const studentIdSum = studentList.reduce((accumulator, studentList) => accumulator + studentList.id, 0);
+  const studentIdSum = studentList.reduce((accumulator,
+    studentList) => accumulator + studentList.id, 0);
 
   return studentIdSum;
 }
