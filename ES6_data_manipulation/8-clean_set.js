@@ -1,6 +1,10 @@
-function cleanSet(set, startString = '') {
+function cleanSet(set, startString) {
+  // check if startString is falsy or not a string
+  if (!startString || typeof startString !== 'string') {
+    return '';
+  }
   return Array.from(set)
-    .filter((element) => element.startsWith(startString))
+    .filter((element) => element !== undefined && element.startsWith(startString))
     .map((element) => element.slice(startString.length))
     .join('-');
 }
