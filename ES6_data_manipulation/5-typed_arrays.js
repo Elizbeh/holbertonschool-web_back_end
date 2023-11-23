@@ -1,11 +1,11 @@
-function createInt8TypedArray (length, position, value){
+function createInt8TypedArray(length, position, value) {
   if (position < 0 || position >= length) {
-    throw new Error("Position outside range")
+    throw new Error('Position outside range');
   }
   // create a new ArraBuffer with the specified length
 
   const buffer = new ArrayBuffer(length);
- 
+
   // Create a DataView to access and manipulate the ArrayBuffer
   const dataView = new DataView(buffer);
 
