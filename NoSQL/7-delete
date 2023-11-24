@@ -1,0 +1,2 @@
+//7.7.7.7.7.7.7. Delete
+db.school.deleteMany({"name": "Holberton school"})
