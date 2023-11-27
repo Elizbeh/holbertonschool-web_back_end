@@ -1,6 +1,6 @@
 // 0. Executing basic javascript with Node JS
-const displayMessage = (message) => {
-  console.log(message);
+const displayMessage = (str) => {
+  console.log(str);
 };
 
 module.exports = displayMessage;
