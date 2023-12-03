@@ -6,7 +6,7 @@ const calculateNumber = require('./0-calcul');
 
 describe('calculateNumber', () => {
   it('should round and sum two numbers', () => {
-    assert.strictEqual(calculateNumber(1, 3), 4); // Expected value corrected from 3 to 4
+    assert.strictEqual(calculateNumber(1, 3), 4);
   });
 
   it('should round and sum two numbers with decimals', () => {
