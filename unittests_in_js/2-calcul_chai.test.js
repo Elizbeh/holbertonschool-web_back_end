@@ -15,7 +15,7 @@ describe('calculateNumber', () => {
   });
 
   it('should return "Error: Division by zero is not allowed" when trying to divide by 0', () => {
-    expect(() => calculateNumber('DIVIDE', 1.4, 0).to.equal(Error);
+    expect(() => calculateNumber('DIVIDE', 1.4, 0).to.throw('Error: Division by zero is not allowed'));
   });
 
   it('should round and add two positive integers when type is SUM', () => {
@@ -65,5 +65,12 @@ describe('calculateNumber', () => {
   it('should return "Error: Division by zero is not allowed" when trying to divide by 0 for zero values', () => {
     expect(() => calculateNumber('DIVIDE', 0, 0).to.throw('Error: Division by zero is not allowed'));
   });
-});
+    
+   it('it should return Error if b is equal to 0', () => {
+      expect(calculateNumber('DIVIDE', 10.3, 0)).to.equal('Error:');
+      expect(calculateNumber('DIVIDE', 10.7, 0)).to.equal('Error:');
+      expect(calculateNumber('DIVIDE', 10.3, 0.3)).to.equal('Error:');
+      expect(calculateNumber('DIVIDE', 10.7, 0.2)).to.equal('Error:');
+    });
+ });
 
